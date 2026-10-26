@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My AI</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #212121;
+      color: white;
+      display: flex;
+      height: 100vh;
+    }
+    aside {
+      width: 245px;
+      background: #171717;
+      padding: 20px;
+    }
+    .new-chat {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #444;
+      border-radius: 10px;
+      background: transparent;
+      color: white;
+      cursor: pointer;
+      text-align: left;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px;
+      min-width: 0;
+    }
+    h1 { margin-top: 15vh; }
+    #messages {
+      width: 100%;
+      max-width: 700px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .message {
+      padding: 12px 16px;
+      margin: 12px 0;
+      border-radius: 12px;
+      background: #303030;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+    form {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      max-width: 700px;
+      padding: 12px;
+      background: #303030;
+      border-radius: 18px;
+    }
+    input {
+      flex: 1;
+      min-width: 0;
+      background: transparent;
+      border: 0;
+      outline: 0;
+      color: white;
+      font-size: 16px;
+    }
+    form button {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      cursor: pointer;
+    }
+    @media(max-width:600px) {
+      aside { width: 90px; padding: 10px; }
+      .new-chat { font-size: 12px; }
+      main { padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <aside>
+    <h2>✳ My AI</h2>
+    <button class="new-chat" id="newChat">+ New chat</button>
+  </aside>
+
+  <main>
+    <h1 id="welcome">What can I help with?</h1>
+    <div id="messages"></div>
+    <form id="chatForm">
+      <input id="prompt" placeholder="Message My AI..." autocomplete="off" required>
+      <button type="submit">↑</button>
+    </form>
+  </main>
+
+  <script>
+    const form = document.getElementById("chatForm");
+    const promptInput = document.getElementById("prompt");
+    const messages = document.getElementById("messages");
+    const welcome = document.getElementById("welcome");
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const text = promptInput.value.trim();
+      if (!text) return;
+
+      welcome.style.display = "none";
+
+      const message = document.createElement("div");
+      message.className = "message";
+      message.textContent = "You: " + text;
+      messages.appendChild(message);
+
+      const reply = document.createElement("div");
+      reply.className = "message";
+      reply.textContent =
+        "Your AI interface is working! Connect an AI model to enable real answers.";
+      messages.appendChild(reply);
+
+      promptInput.value = "";
+      messages.scrollTop = messages.scrollHeight;
+    });
+
+    document.getElementById("newChat").onclick = function() {
+      messages.replaceChildren();
+      welcome.style.display = "";
+      promptInput.value = "";
+    };
+  </script>
+</body>
+</html>
